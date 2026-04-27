@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+# No Python package to ship; this project is scripts + benchmarks + notebooks.
+packages = []
+
+[project]
+name = "keps"
+version = "1.0.0"
+description = "Experiment code and results for KEPS 2026: Planning while Learning with Anytime Sound and Complete Models."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "GPL-3.0-or-later" }
+authors = [
+    { name = "Pablo Copete" },
+    { name = "Diego Aineto" },
+    { name = "Eva Onaindia" },
+    { name = "Enrico Scala" },
+]
+classifiers = [
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    "ascal @ git+https://github.com/pablocopete/ascal.git@9cef5308e8fd65b2368bbc5f371d983a3c0c87c8",
+    "numpy>=1.24",
+    "matplotlib>=3.7",
+    "unified-planning>=1.3.0",
+    "up-fast-downward",
+]
+
+[project.optional-dependencies]
+notebook = [
+    "jupyter",
+    "ipykernel",
+    "nbconvert",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

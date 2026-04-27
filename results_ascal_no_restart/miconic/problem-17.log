@@ -1,0 +1,34 @@
+# argv: ['/home/pablo/espacio_trabajo/VSLAM-Rework/notebooks-rework/loop_no_start.py', '--domain', 'miconic', '--problem', 'problems/problem-17.pddl', '--benchmarks-root', '/home/pablo/espacio_trabajo/VSLAM-Rework/new_benchmarks', '--results-root', '/home/pablo/espacio_trabajo/VSLAM-Rework/results_tiny_no_restart']
+# log_file: /media/datos/pablo/VSLAM-Rework/results_tiny_no_restart/miconic/problem-17.log
+# start_utc: 2026-04-15T10:39:24Z
+Loaded: domain_original.pddl + problem-17.pddl
+[timing] initial UP export (consistent_border_split): 0.0015s  |  inject: 0.0001s
+Planning actions (consistent_border_split): 24
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[demos_processed] {"negative_total": 20, "per_action": {"board": {"negative": 2, "positive": 4}, "depart": {"negative": 11, "positive": 4}, "down": {"negative": 5, "positive": 5}, "up": {"negative": 2, "positive": 4}}, "positive_total": 17}
+[sound_complete_convergence] {"domain_action_count": 4, "converged_action_count": 0, "per_action": {"board": {"converged": false, "collapsed": false, "frontier_u_pre": 1, "frontier_l_pre": 1, "eff_gap_literals": 2, "n_pre_interval": 32, "n_eff_proxy": 4}, "depart": {"converged": false, "collapsed": false, "frontier_u_pre": 1, "frontier_l_pre": 1, "eff_gap_literals": 1, "n_pre_interval": 16, "n_eff_proxy": 2}, "up": {"converged": false, "collapsed": false, "frontier_u_pre": 1, "frontier_l_pre": 1, "eff_gap_literals": 0, "n_pre_interval": 8, "n_eff_proxy": 1}, "down": {"converged": false, "collapsed": false, "frontier_u_pre": 2, "frontier_l_pre": 1, "eff_gap_literals": 0, "n_pre_interval": 6, "n_eff_proxy": 1}}, "criterion": "compute_version_space_size"}
+[sound model post-loop] plan_found=True goal_on_gt=True
+[online loop] wall 5.488s  (outer iterations=21, stop_reason='goal', goal_reached=True)
+[stop] goal: GT state after full simulated plan satisfies PDDL goals
+[timing summary] total plan_model_export=0.182s  total plan_solve=5.058s  avg plan_model_export/iter=0.009s  avg plan_solve/iter=0.241s
+[summary] {'plan_found': 21, 'plan_found_sound': 1, 'plan_found_border': 18, 'plan_found_complete': 2, 'plan_verified': 1, 'plan_spurious': 20, 'no_plan': 0} learn_steps 37 exported_UP_actions_end 5 (started 24)
+# end_utc: 2026-04-15T10:39:30Z

@@ -1,0 +1,98 @@
+# argv: ['/home/pablo/espacio_trabajo/VSLAM-Rework/notebooks-rework/loop_no_start.py', '--domain', 'satellite', '--problem', 'problems/problem-17.pddl', '--benchmarks-root', '/home/pablo/espacio_trabajo/VSLAM-Rework/new_benchmarks', '--results-root', '/home/pablo/espacio_trabajo/VSLAM-Rework/results_tiny_no_restart']
+# log_file: /media/datos/pablo/VSLAM-Rework/results_tiny_no_restart/satellite/problem-17.log
+# start_utc: 2026-04-15T10:30:31Z
+Loaded: domain_original.pddl + problem-17.pddl
+[timing] initial UP export (consistent_border_split): 0.0064s  |  inject: 0.0005s
+Planning actions (consistent_border_split): 72
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[demos_processed] {"negative_total": 84, "per_action": {"calibrate": {"negative": 23, "positive": 2}, "switch_off": {"negative": 4, "positive": 2}, "switch_on": {"negative": 2, "positive": 4}, "take_image": {"negative": 54, "positive": 4}, "turn_to": {"negative": 1, "positive": 14}}, "positive_total": 26}
+[sound_complete_convergence] {"domain_action_count": 5, "converged_action_count": 0, "per_action": {"turn_to": {"converged": false, "collapsed": false, "frontier_u_pre": 1, "frontier_l_pre": 1, "eff_gap_literals": 0, "n_pre_interval": 2, "n_eff_proxy": 1}, "switch_on": {"converged": false, "collapsed": false, "frontier_u_pre": 1, "frontier_l_pre": 1, "eff_gap_literals": 1, "n_pre_interval": 4, "n_eff_proxy": 2}, "switch_off": {"converged": false, "collapsed": false, "frontier_u_pre": 1, "frontier_l_pre": 1, "eff_gap_literals": 1, "n_pre_interval": 4, "n_eff_proxy": 2}, "calibrate": {"converged": false, "collapsed": false, "frontier_u_pre": 2, "frontier_l_pre": 1, "eff_gap_literals": 3, "n_pre_interval": 12, "n_eff_proxy": 8}, "take_image": {"converged": false, "collapsed": false, "frontier_u_pre": 1, "frontier_l_pre": 1, "eff_gap_literals": 4, "n_pre_interval": 64, "n_eff_proxy": 16}}, "criterion": "compute_version_space_size"}
+[sound model post-loop] plan_found=True goal_on_gt=True
+[online loop] wall 644.569s  (outer iterations=85, stop_reason='goal', goal_reached=True)
+[stop] goal: GT state after full simulated plan satisfies PDDL goals
+[timing summary] total plan_model_export=3.479s  total plan_solve=639.691s  avg plan_model_export/iter=0.041s  avg plan_solve/iter=7.526s
+[summary] {'plan_found': 85, 'plan_found_sound': 1, 'plan_found_border': 84, 'plan_found_complete': 0, 'plan_verified': 1, 'plan_spurious': 84, 'no_plan': 0} learn_steps 110 exported_UP_actions_end 6 (started 72)
+# end_utc: 2026-04-15T10:41:15Z

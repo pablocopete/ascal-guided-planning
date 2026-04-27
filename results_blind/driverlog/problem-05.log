@@ -1,0 +1,33 @@
+# argv: ['/home/pablo/espacio_trabajo/VSLAM-Rework/notebooks-rework/run_ucs_baseline.py', '--domain', 'driverlog', '--problem', 'problems/problem-05.pddl', '--benchmarks-root', '/home/pablo/espacio_trabajo/VSLAM-Rework/new_benchmarks', '--results-root', '/home/pablo/espacio_trabajo/VSLAM-Rework/results_blind']
+# log_file: /media/datos/pablo/VSLAM-Rework/results_blind/driverlog/problem-05.log
+# start_utc: 2026-04-14T20:25:39.465Z
+method: blind_ucs_gt_applicable max_expansions=500000 max_wall_sec=5400.0
+domain_file: /media/datos/pablo/VSLAM-Rework/new_benchmarks/driverlog/domain_original.pddl
+problem_file: /media/datos/pablo/VSLAM-Rework/new_benchmarks/driverlog/problems/problem-05.pddl
+Loaded: domain_original.pddl + problem-05.pddl
+
+[ucs]
+{
+  "outcome": "SOLVED",
+  "wall_time_sec": 0.07629229174926877,
+  "max_expansions": 500000,
+  "max_wall_sec": 5400.0,
+  "metric": "none_implicit_unit_cost",
+  "optimal_cost": 6.0,
+  "expansions": 42,
+  "iterations": 43,
+  "nodes_generated": 55
+}
+
+[gt_replay]
+{
+  "executable": true,
+  "goal_reached": true,
+  "steps_executed": 6,
+  "reason": null
+}
+
+[sound model post-loop] plan_found=True goal_on_gt=True
+[online loop] wall 0.076s  (outer iterations=0, stop_reason='ucs', goal_reached=True)
+[stop] ucs: outcome='SOLVED' executable=True reason=None
+# end_utc: 2026-04-14T20:25:39.593Z

@@ -1,0 +1,14 @@
+# argv: ['/home/pablo/espacio_trabajo/VSLAM-Rework/notebooks-rework/positive_fallback.py', '--domain', 'satellite', '--problem', 'problems/problem-03.pddl', '--benchmarks-root', '/home/pablo/espacio_trabajo/VSLAM-Rework/new_benchmarks', '--results-root', '/home/pablo/espacio_trabajo/VSLAM-Rework/results_tiny']
+# log_file: /media/datos/pablo/VSLAM-Rework/results_tiny/satellite/problem-03.log
+# start_utc: 2026-04-14T12:15:28Z
+Loaded: domain_original.pddl + problem-03.pddl
+[timing] initial UP export (consistent_border_split): 0.0066s  |  inject: 0.0005s
+Planning actions (consistent_border_split): 72
+[demos_processed] {"negative_total": 98, "per_action": {"calibrate": {"negative": 25, "positive": 13}, "switch_off": {"negative": 6, "positive": 1}, "switch_on": {"negative": 2, "positive": 88}, "take_image": {"negative": 63, "positive": 5}, "turn_to": {"negative": 2, "positive": 164}}, "positive_total": 271}
+[sound_complete_convergence] {"domain_action_count": 5, "converged_action_count": 0, "per_action": {"turn_to": {"converged": false, "collapsed": false, "frontier_u_pre": 1, "frontier_l_pre": 1, "eff_gap_literals": 0, "n_pre_interval": 2, "n_eff_proxy": 1}, "switch_on": {"converged": false, "collapsed": false, "frontier_u_pre": 1, "frontier_l_pre": 1, "eff_gap_literals": 1, "n_pre_interval": 4, "n_eff_proxy": 2}, "switch_off": {"converged": false, "collapsed": false, "frontier_u_pre": 1, "frontier_l_pre": 1, "eff_gap_literals": 1, "n_pre_interval": 4, "n_eff_proxy": 2}, "calibrate": {"converged": false, "collapsed": false, "frontier_u_pre": 1, "frontier_l_pre": 1, "eff_gap_literals": 3, "n_pre_interval": 4, "n_eff_proxy": 8}, "take_image": {"converged": false, "collapsed": false, "frontier_u_pre": 2, "frontier_l_pre": 1, "eff_gap_literals": 4, "n_pre_interval": 24, "n_eff_proxy": 16}}, "criterion": "compute_version_space_size"}
+[sound model post-loop] plan_found=True goal_on_gt=True
+[online loop] wall 370.978s  (outer iterations=99, stop_reason='goal', goal_reached=True)
+[stop] goal: GT state after full simulated plan satisfies PDDL goals
+[timing summary] total plan_model_export=4.141s  total plan_solve=365.467s  avg plan_model_export/iter=0.042s  avg plan_solve/iter=3.692s
+[summary] {'plan_found': 99, 'plan_found_sound': 1, 'plan_found_border': 98, 'plan_found_complete': 0, 'plan_verified': 1, 'plan_spurious': 98, 'no_plan': 0} learn_steps 369 exported_UP_actions_end 6 (started 72)
+# end_utc: 2026-04-14T12:21:39Z

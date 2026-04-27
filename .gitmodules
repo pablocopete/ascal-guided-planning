@@ -1,0 +1,3 @@
+[submodule "ascal"]
+	path = ascal
+	url = https://github.com/pablocopete/ascal.git

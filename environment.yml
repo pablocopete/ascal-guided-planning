@@ -1,0 +1,22 @@
+name: ascal_env
+channels:
+  - defaults
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+    # Core runtime
+    - numpy>=1.24
+    - matplotlib>=3.7
+    - unified-planning>=1.3.0
+    - up-fast-downward
+    - ConfigSpace>=1.0
+    - more-itertools
+    - networkx
+    - scipy
+    # Notebook support (optional, needed to re-run notebooks/)
+    - jupyter
+    - ipykernel
+    - nbconvert
+    # ASCAL — installed from the pinned git submodule at ./ascal.
+    - -e ./ascal

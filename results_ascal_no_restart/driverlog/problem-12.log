@@ -1,0 +1,56 @@
+# argv: ['/home/pablo/espacio_trabajo/VSLAM-Rework/notebooks-rework/loop_no_start.py', '--domain', 'driverlog', '--problem', 'problems/problem-12.pddl', '--benchmarks-root', '/home/pablo/espacio_trabajo/VSLAM-Rework/new_benchmarks', '--results-root', '/home/pablo/espacio_trabajo/VSLAM-Rework/results_tiny_no_restart']
+# log_file: /media/datos/pablo/VSLAM-Rework/results_tiny_no_restart/driverlog/problem-12.log
+# start_utc: 2026-04-15T10:44:16Z
+Loaded: domain_original.pddl + problem-12.pddl
+[timing] initial UP export (consistent_border_split): 0.0146s  |  inject: 0.0010s
+Planning actions (consistent_border_split): 132
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[carry] planning from previous iteration last valid state
+[demos_processed] {"negative_total": 42, "per_action": {"board_truck": {"negative": 3, "positive": 2}, "disembark_truck": {"negative": 7, "positive": 1}, "drive_truck": {"negative": 21, "positive": 9}, "load_truck": {"negative": 4, "positive": 4}, "unload_truck": {"negative": 4, "positive": 4}, "walk": {"negative": 3, "positive": 4}}, "positive_total": 24}
+[sound_complete_convergence] {"domain_action_count": 6, "converged_action_count": 0, "per_action": {"load_truck": {"converged": false, "collapsed": false, "frontier_u_pre": 1, "frontier_l_pre": 1, "eff_gap_literals": 1, "n_pre_interval": 2, "n_eff_proxy": 2}, "unload_truck": {"converged": false, "collapsed": false, "frontier_u_pre": 1, "frontier_l_pre": 1, "eff_gap_literals": 1, "n_pre_interval": 2, "n_eff_proxy": 2}, "board_truck": {"converged": false, "collapsed": false, "frontier_u_pre": 1, "frontier_l_pre": 1, "eff_gap_literals": 1, "n_pre_interval": 4, "n_eff_proxy": 2}, "disembark_truck": {"converged": false, "collapsed": false, "frontier_u_pre": 1, "frontier_l_pre": 1, "eff_gap_literals": 1, "n_pre_interval": 4, "n_eff_proxy": 2}, "drive_truck": {"converged": false, "collapsed": false, "frontier_u_pre": 4, "frontier_l_pre": 1, "eff_gap_literals": 4, "n_pre_interval": 240, "n_eff_proxy": 16}, "walk": {"converged": false, "collapsed": false, "frontier_u_pre": 4, "frontier_l_pre": 1, "eff_gap_literals": 0, "n_pre_interval": 30, "n_eff_proxy": 1}}, "criterion": "compute_version_space_size"}
+[sound model post-loop] plan_found=True goal_on_gt=True
+[online loop] wall 145.820s  (outer iterations=43, stop_reason='goal', goal_reached=True)
+[stop] goal: GT state after full simulated plan satisfies PDDL goals
+[timing summary] total plan_model_export=11.193s  total plan_solve=131.101s  avg plan_model_export/iter=0.260s  avg plan_solve/iter=3.049s
+[summary] {'plan_found': 43, 'plan_found_sound': 0, 'plan_found_border': 43, 'plan_found_complete': 0, 'plan_verified': 1, 'plan_spurious': 42, 'no_plan': 0} learn_steps 66 exported_UP_actions_end 12 (started 132)
+# end_utc: 2026-04-15T10:46:42Z

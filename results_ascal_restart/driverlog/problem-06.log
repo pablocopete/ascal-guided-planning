@@ -1,0 +1,14 @@
+# argv: ['/home/pablo/espacio_trabajo/VSLAM-Rework/notebooks-rework/positive_fallback.py', '--domain', 'driverlog', '--problem', 'problems/problem-06.pddl', '--benchmarks-root', '/home/pablo/espacio_trabajo/VSLAM-Rework/new_benchmarks', '--results-root', '/home/pablo/espacio_trabajo/VSLAM-Rework/results_tiny']
+# log_file: /media/datos/pablo/VSLAM-Rework/results_tiny/driverlog/problem-06.log
+# start_utc: 2026-04-14T12:45:17Z
+Loaded: domain_original.pddl + problem-06.pddl
+[timing] initial UP export (consistent_border_split): 0.0144s  |  inject: 0.0009s
+Planning actions (consistent_border_split): 132
+[demos_processed] {"negative_total": 42, "per_action": {"board_truck": {"negative": 4, "positive": 14}, "disembark_truck": {"negative": 4, "positive": 1}, "drive_truck": {"negative": 20, "positive": 7}, "load_truck": {"negative": 3, "positive": 33}, "unload_truck": {"negative": 9, "positive": 2}, "walk": {"negative": 2, "positive": 12}}, "positive_total": 69}
+[sound_complete_convergence] {"domain_action_count": 6, "converged_action_count": 0, "per_action": {"load_truck": {"converged": false, "collapsed": false, "frontier_u_pre": 1, "frontier_l_pre": 1, "eff_gap_literals": 1, "n_pre_interval": 2, "n_eff_proxy": 2}, "unload_truck": {"converged": false, "collapsed": false, "frontier_u_pre": 1, "frontier_l_pre": 1, "eff_gap_literals": 2, "n_pre_interval": 4, "n_eff_proxy": 4}, "board_truck": {"converged": false, "collapsed": false, "frontier_u_pre": 1, "frontier_l_pre": 1, "eff_gap_literals": 1, "n_pre_interval": 4, "n_eff_proxy": 2}, "disembark_truck": {"converged": false, "collapsed": false, "frontier_u_pre": 3, "frontier_l_pre": 1, "eff_gap_literals": 1, "n_pre_interval": 7, "n_eff_proxy": 2}, "drive_truck": {"converged": false, "collapsed": false, "frontier_u_pre": 12, "frontier_l_pre": 1, "eff_gap_literals": 4, "n_pre_interval": 390, "n_eff_proxy": 16}, "walk": {"converged": false, "collapsed": false, "frontier_u_pre": 4, "frontier_l_pre": 1, "eff_gap_literals": 0, "n_pre_interval": 30, "n_eff_proxy": 1}}, "criterion": "compute_version_space_size"}
+[sound model post-loop] plan_found=True goal_on_gt=True
+[online loop] wall 100.772s  (outer iterations=43, stop_reason='goal', goal_reached=True)
+[stop] goal: GT state after full simulated plan satisfies PDDL goals
+[timing summary] total plan_model_export=10.893s  total plan_solve=86.579s  avg plan_model_export/iter=0.253s  avg plan_solve/iter=2.013s
+[summary] {'plan_found': 43, 'plan_found_sound': 0, 'plan_found_border': 42, 'plan_found_complete': 1, 'plan_verified': 1, 'plan_spurious': 42, 'no_plan': 0} learn_steps 111 exported_UP_actions_end 22 (started 132)
+# end_utc: 2026-04-14T12:46:58Z
