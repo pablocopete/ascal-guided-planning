@@ -1,0 +1,7 @@
+# argv: ['/home/pablo/KEPS/experiments/KEPS2026/scripts/loop_ascal_no_restart.py', '--domain', 'miconic', '--problem', 'problems/problem-18.pddl', '--benchmarks-root', '/home/pablo/KEPS/benchmarks', '--results-root', '/home/pablo/KEPS/experiments/KEPS2026/results_ascal_no_restart']
+# log_file: /home/pablo/KEPS/experiments/KEPS2026/results_ascal_no_restart/miconic/problem-18.log
+# start_utc: 2026-04-24T08:56:59Z
+Loaded: domain_original.pddl + problem-18.pddl
+[timing] initial UP export (sound): 0.0001s  |  inject: 0.0001s
+Planning actions (sound): 0
+# end_utc: 2026-04-24T08:56:59Z

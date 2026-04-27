@@ -18,7 +18,7 @@ Two instantiations of the framework are defined in the paper:
 
 | Mode | Description | Status |
 |------|-------------|--------|
-| **Model-based planning** | The planner searches over the learned models (M_S, M_C) and uses the simulator as a validation oracle. Plans found in M_S are immediately valid in the true model; M_C drives optimistic exploration. | **Implemented here** |
+| **Model-based planning** | The planner searches over the learned models (M_S, M_C) and uses the simulator as a validation oracle. Plans found in M_S are immediately valid in the true model; M_C drives optimistic exploration. | **Implemented — `experiments/KEPS2026`** |
 | **Model-guided interaction** | Search is performed directly over the simulator (A*-style), guided by an admissible heuristic derived from M_C. | Planned — future release |
 
 This repository currently contains the experiment code and pre-computed results for the **model-based planning** mode, as reported in:
@@ -31,18 +31,27 @@ This repository currently contains the experiment code and pre-computed results 
 ## Repository layout
 
 ```
-ascal/                      ASCAL learning module (git submodule → companion repo)
-benchmarks/                 PDDL benchmark domains and problems (blocks, driverlog, miconic, satellite)
-scripts/                    Experiment drivers (see below)
-notebooks/                  results_ascal_vs_blind.ipynb — paper figures
-results_ascal_no_restart/   Pre-computed logs — ASCAL model-based loop, carry-state variant
-results_ascal_restart/      Pre-computed logs — ASCAL model-based loop, restart-on-negative-demo variant
-results_blind/              Pre-computed logs — blind UCS baseline
-media/                      Final figures (PDF + PNG) as they appear in the paper
-tests/                      Smoke tests
-environment.yml             Conda environment spec (installs ASCAL from the submodule)
-pyproject.toml              Python package metadata / dependency list
+ascal/                          ASCAL learning module (git submodule → companion repo)
+benchmarks/                     PDDL benchmark domains and problems
+│   blocks/                     20 problems
+│   driverlog/                  20 problems
+│   miconic/                    20 problems
+│   satellite/                  20 problems
+experiments/
+│   KEPS2026/                   Model-based planning — KEPS 2026 paper
+│   │   scripts/                Experiment drivers (see below)
+│   │   notebooks/              results_ascal_vs_blind.ipynb — paper figures
+│   │   media/                  Final figures (PDF + PNG) as they appear in the paper
+│   │   tests/                  Smoke tests
+│   │   results/
+│   │   │   results_ascal_no_restart/   Logs — carry-state variant
+│   │   │   results_ascal_restart/      Logs — restart-on-negative-demo variant
+│   │   │   results_blind/              Logs — blind UCS baseline
+environment.yml                 Conda environment spec (installs ASCAL from the submodule)
+pyproject.toml                  Python package metadata / dependency list
 ```
+
+New experiments implementing future framework modes (e.g. model-guided interaction) will each get their own folder under `experiments/`.
 
 ---
 
@@ -72,49 +81,57 @@ conda activate ascal_env
 
 ---
 
-## Reproducing the results
+## Reproducing the KEPS 2026 results
+
+All commands below are run from the **repository root**.
+Scripts resolve benchmarks from `benchmarks/` and write logs inside `experiments/KEPS2026/`.
 
 ### Run the model-based planning experiments
 
 Two carry-state variants are provided:
 
 ```bash
-bash scripts/run_ascal_no_restart_all.sh    # logs → results_ascal_no_restart/
-bash scripts/run_ascal_restart_all.sh       # logs → results_ascal_restart/
+bash experiments/KEPS2026/scripts/run_ascal_no_restart_all.sh   # logs → experiments/KEPS2026/results/results_ascal_no_restart/
+bash experiments/KEPS2026/scripts/run_ascal_restart_all.sh      # logs → experiments/KEPS2026/results/results_ascal_restart/
 ```
 
 Each script runs all 80 problems (4 domains × 20 problems) in parallel (default 5 jobs).
-Override with `MAX_JOBS=8 bash scripts/run_ascal_no_restart_all.sh`.
+Override with `MAX_JOBS=8 bash experiments/KEPS2026/scripts/run_ascal_no_restart_all.sh`.
 
 ### Run the blind UCS baseline
 
 ```bash
-bash scripts/run_blind_all.sh               # logs → results_blind/
+bash experiments/KEPS2026/scripts/run_blind_all.sh              # logs → experiments/KEPS2026/results/results_blind/
 ```
 
 ### Regenerate the paper figures
 
 ```bash
-cd notebooks
+cd experiments/KEPS2026/notebooks
 jupyter nbconvert --to notebook --execute results_ascal_vs_blind.ipynb
 ```
 
-Figures are written to `media/` (PDF and PNG).
+Figures are written to `experiments/KEPS2026/media/` (PDF and PNG).
+
+Override the default results paths at runtime:
+```bash
+RESULTS_ROOT=/custom/path bash experiments/KEPS2026/scripts/run_ascal_no_restart_all.sh
+```
 
 ---
 
-## Scripts overview
+## Scripts overview (KEPS 2026)
 
 | File | Purpose |
 |------|---------|
-| `scripts/loop_ascal_no_restart.py` | Model-based planning loop — carry-state (no restart on negative demo). One problem per run. |
-| `scripts/loop_ascal_restart.py` | Model-based planning loop — restart-on-negative-demo. One problem per run. |
-| `scripts/run_ascal_no_restart_all.sh` | Parallel driver for `loop_ascal_no_restart.py`. |
-| `scripts/run_ascal_restart_all.sh` | Parallel driver for `loop_ascal_restart.py`. |
-| `scripts/run_ucs_baseline.py` | Blind UCS on ground-truth PDDL. One problem per invocation. |
-| `scripts/run_blind_all.sh` | Parallel driver for `run_ucs_baseline.py`. |
-| `scripts/ucs_baseline_core.py` | Core UCS implementation and plan replay. |
-| `scripts/aggregate_results_server.py` | Parse `.log` files into CSV / summary table. |
+| `experiments/KEPS2026/scripts/loop_ascal_no_restart.py` | Model-based planning loop — carry-state (no restart on negative demo). One problem per run. |
+| `experiments/KEPS2026/scripts/loop_ascal_restart.py` | Model-based planning loop — restart-on-negative-demo. One problem per run. |
+| `experiments/KEPS2026/scripts/run_ascal_no_restart_all.sh` | Parallel driver for `loop_ascal_no_restart.py`. |
+| `experiments/KEPS2026/scripts/run_ascal_restart_all.sh` | Parallel driver for `loop_ascal_restart.py`. |
+| `experiments/KEPS2026/scripts/run_ucs_baseline.py` | Blind UCS on ground-truth PDDL. One problem per invocation. |
+| `experiments/KEPS2026/scripts/run_blind_all.sh` | Parallel driver for `run_ucs_baseline.py`. |
+| `experiments/KEPS2026/scripts/ucs_baseline_core.py` | Core UCS implementation and plan replay. |
+| `experiments/KEPS2026/scripts/aggregate_results_server.py` | Parse `.log` files into CSV / summary table. |
 
 ---
 
