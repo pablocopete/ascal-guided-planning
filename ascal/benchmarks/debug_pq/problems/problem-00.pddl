@@ -1,5 +1,0 @@
-(define (problem debug_pq_0)
-  (:domain debug_pq)
-  (:init)
-  (:goal (and (p) (q)))
-)
