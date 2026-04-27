@@ -1,5 +1,5 @@
 """
-Online loop (sound → complete → version_space) with **no-restart / carry-state** behaviour.
+Online loop (sound → upper_border_split → complete_model) with **no-restart / carry-state** behaviour.
 
 After each outer iteration that has a **plan**, the **next** plan is solved and
 simulated from a **carried** UP state: the **last valid** simulator state after that
@@ -156,11 +156,11 @@ def learner_up_problem(learner, kind: str):
     kind = kind.lower()
     if kind == "sound":
         return learner.sound_model()
+    if kind == "border":
+        return learner.upper_border_split()
     if kind == "complete":
         return learner.complete_model()
-    if kind == "version_space":
-        return learner.version_space()
-    raise ValueError('kind must be one of: "sound", "complete", "version_space"')
+    raise ValueError('kind must be one of: "sound", "border", "complete"')
 
 
 def simulate_prefix_on_ground_truth(
@@ -427,8 +427,8 @@ def main() -> None:
         stats = {
             "plan_found": 0,
             "plan_found_sound": 0,
+            "plan_found_border": 0,
             "plan_found_complete": 0,
-            "plan_found_version_space": 0,
             "plan_verified": 0,
             "plan_spurious": 0,
             "no_plan": 0,
@@ -479,7 +479,7 @@ def main() -> None:
                     plan_source = "sound"
                 else:
                     t_e0 = time.perf_counter()
-                    plan_learned_complete = learner_up_problem(learner, "complete")
+                    plan_learned_complete = learner_up_problem(learner, "border")
                     t_e1 = time.perf_counter()
                     _sum_export_build += t_e1 - t_e0
                     plan_problem_complete = inject_actions(plan_base, plan_learned_complete)
@@ -491,10 +491,10 @@ def main() -> None:
                     ok_c = result_c.status == PlanGenerationResultStatus.SOLVED_SATISFICING
                     if ok_c:
                         plan = result_c.plan
-                        plan_source = "complete"
+                        plan_source = "border"
                     else:
                         t_e2 = time.perf_counter()
-                        plan_learned_vs = learner_up_problem(learner, "version_space")
+                        plan_learned_vs = learner_up_problem(learner, "complete")
                         t_e3 = time.perf_counter()
                         _sum_export_build += t_e3 - t_e2
                         plan_problem_vs = inject_actions(plan_base, plan_learned_vs)
@@ -509,7 +509,7 @@ def main() -> None:
                         )
                         if ok_vs:
                             plan = result_vs.plan
-                            plan_source = "version_space"
+                            plan_source = "complete"
 
                 pos_demos, neg_demo, final_up_state = [], None, None
                 verified = False
@@ -518,10 +518,10 @@ def main() -> None:
                     stats["plan_found"] += 1
                     if plan_source == "sound":
                         stats["plan_found_sound"] += 1
+                    elif plan_source == "border":
+                        stats["plan_found_border"] += 1
                     elif plan_source == "complete":
                         stats["plan_found_complete"] += 1
-                    elif plan_source == "version_space":
-                        stats["plan_found_version_space"] += 1
                     if carry_up_state is not None:
                         pos_demos, neg_demo, final_up_state, sim_carry_state = (
                             simulate_prefix_from_state(
@@ -550,7 +550,7 @@ def main() -> None:
                     stats["no_plan"] += 1
                     if not QUIET_ONLINE_LOOP:
                         emit(
-                            f"[no plan] sound / complete / version_space all failed "
+                            f"[no plan] sound / border / complete all failed "
                             f"(outer i={i})."
                         )
 
@@ -651,7 +651,7 @@ def main() -> None:
         _stop_msgs = {
             "goal": "GT state after full simulated plan satisfies PDDL goals",
             "no_plan_complete": (
-                "planner returned no plan for sound, complete, and version_space"
+                "planner returned no plan for sound, border, and complete"
             ),
             "max_iterations": (
                 f"reached MAX_OUTER_ITERATIONS ({MAX_OUTER_ITERATIONS}) without goal"

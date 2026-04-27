@@ -45,7 +45,7 @@ experiments/
 │   │   tests/                  Smoke tests
 │   │   results/
 │   │   │   results_ascal_no_restart/   Logs — carry-state variant
-│   │   │   results_ascal_restart/      Logs — restart-on-negative-demo variant
+│   │   │   results_ascal_restart/      Logs — restart-to-initial-state-on-negative-demo variant
 │   │   │   results_blind/              Logs — blind UCS baseline
 environment.yml                 Conda environment spec (installs ASCAL from the submodule)
 pyproject.toml                  Python package metadata / dependency list

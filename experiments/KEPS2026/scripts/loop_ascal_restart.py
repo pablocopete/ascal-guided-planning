@@ -1,18 +1,13 @@
 """
-Online loop (sound → complete → version_space) with **restart-on-negative-demo** behaviour.
+Online loop (sound → upper_border_split → complete_model) with **restart** behaviour.
 
-After each outer iteration that has a **plan**:
+Every outer iteration plans from the **original PDDL initial state**, regardless of
+whether the previous plan succeeded or produced a negative demo.  The only ways to
+exit the loop are: goal reached, no plan found by any of the three models, or
+``MAX_OUTER_ITERATIONS`` exhausted.
 
-- If the plan executes **without any negative demo** (every action is applicable),
-  the **next** iteration plans from the **carried** UP state (the terminal state of
-  the successful rollout).
-- If the plan produces a **negative demo** (an action is inapplicable mid-plan),
-  carry is **cleared** and the next iteration plans from the **original PDDL initial
-  state** again.
-- If there is **no plan at all**, carry is cleared (same as above).
-
-This is the **restart** counterpart to ``loop_ascal_no_restart.py``, which always
-carries the last valid state regardless of whether the simulation failed.
+This is the **restart** counterpart to ``loop_ascal_no_restart.py``, which carries
+the last valid simulator state into the next iteration.
 
 Post-loop sound check always uses the **original** PDDL initial (``gt_problem``) for
 comparability across variants.
@@ -148,11 +143,11 @@ def learner_up_problem(learner, kind: str):
     kind = kind.lower()
     if kind == "sound":
         return learner.sound_model()
+    if kind == "border":
+        return learner.upper_border_split()
     if kind == "complete":
         return learner.complete_model()
-    if kind == "version_space":
-        return learner.version_space()
-    raise ValueError('kind must be one of: "sound", "complete", "version_space"')
+    raise ValueError('kind must be one of: "sound", "border", "complete"')
 
 
 def simulate_prefix_on_ground_truth(
@@ -174,61 +169,6 @@ def simulate_prefix_on_ground_truth(
     final_up_state = None
     with SequentialSimulator(problem=problem) as sim:
         state = sim.get_initial_state()
-        for i, ai in enumerate(plan.actions):
-            base_name = ai.action.name.split("_version")[0]
-            base_action = problem.action(base_name)
-            params = tuple(ai.actual_parameters)
-            applicable = sim.is_applicable(state, base_action, params)
-            if verbose:
-                print(f"Step {i} {ai.action.name} applicable={applicable}")
-            pre_v = upstate_to_ascal_state(state)
-            if not applicable:
-                neg_demo = Demonstration(
-                    pre_state=pre_v,
-                    action=VAction(base_name, tuple(str(p) for p in params)),
-                    post_state=None,
-                )
-                if verbose:
-                    print("Failed at step", i)
-                break
-            post = sim.apply(state, base_action, params)
-            post_v = upstate_to_ascal_state(post)
-            positives.append(
-                Demonstration(
-                    pre_state=pre_v,
-                    action=VAction(base_name, tuple(str(p) for p in params)),
-                    post_state=post_v,
-                )
-            )
-            state = post
-        else:
-            final_up_state = state
-    carry_up_state = state
-    return positives, neg_demo, final_up_state, carry_up_state
-
-
-def clone_gt_with_up_initial(gt_problem, up_state):
-    """Clone ``gt_problem`` so its PDDL initial values match ``up_state`` (for planning)."""
-    p = gt_problem.clone()
-    for fl, _ in list(p.initial_values.items()):
-        p.set_initial_value(fl, up_state.get_value(fl))
-    return p
-
-
-def simulate_prefix_from_state(
-    problem, start_state, plan, literal_descriptors, *, verbose=False
-):
-    """Same returns as ``simulate_prefix_on_ground_truth``; walk starts at ``start_state``."""
-
-    def upstate_to_ascal_state(up_state):
-        sig = state_to_signature(up_state, literal_descriptors)
-        return signature_to_state(sig)
-
-    positives = []
-    neg_demo = None
-    final_up_state = None
-    with SequentialSimulator(problem=problem) as sim:
-        state = start_state
         for i, ai in enumerate(plan.actions):
             base_name = ai.action.name.split("_version")[0]
             base_action = problem.action(base_name)
@@ -419,8 +359,8 @@ def main() -> None:
         stats = {
             "plan_found": 0,
             "plan_found_sound": 0,
+            "plan_found_border": 0,
             "plan_found_complete": 0,
-            "plan_found_version_space": 0,
             "plan_verified": 0,
             "plan_spurious": 0,
             "no_plan": 0,
@@ -437,8 +377,6 @@ def main() -> None:
         i = -1
         _sum_export_build = 0.0
         _sum_solve = 0.0
-        carry_up_state = None  # last valid UP state after last simulated plan (or None)
-
         with OneshotPlanner(name="fast-downward", problem_kind=plan_problem.kind) as planner:
             while (i + 1) < MAX_OUTER_ITERATIONS:
                 i += 1
@@ -447,19 +385,11 @@ def main() -> None:
                 plan_source: str | None = None
                 t_plan = 0.0
 
-                plan_base = (
-                    clone_gt_with_up_initial(gt_problem, carry_up_state)
-                    if carry_up_state is not None
-                    else gt_problem
-                )
-                if carry_up_state is not None:
-                    emit("[carry] planning from previous iteration last valid state")
-
                 t_e0 = time.perf_counter()
                 plan_learned_sound = learner_up_problem(learner, "sound")
                 t_e1 = time.perf_counter()
                 _sum_export_build += t_e1 - t_e0
-                plan_problem_sound = inject_actions(plan_base, plan_learned_sound)
+                plan_problem_sound = inject_actions(gt_problem, plan_learned_sound)
                 t0 = time.perf_counter()
                 result_s = planner.solve(plan_problem_sound)
                 dt_s = time.perf_counter() - t0
@@ -471,10 +401,10 @@ def main() -> None:
                     plan_source = "sound"
                 else:
                     t_e0 = time.perf_counter()
-                    plan_learned_complete = learner_up_problem(learner, "complete")
+                    plan_learned_complete = learner_up_problem(learner, "border")
                     t_e1 = time.perf_counter()
                     _sum_export_build += t_e1 - t_e0
-                    plan_problem_complete = inject_actions(plan_base, plan_learned_complete)
+                    plan_problem_complete = inject_actions(gt_problem, plan_learned_complete)
                     t0 = time.perf_counter()
                     result_c = planner.solve(plan_problem_complete)
                     dt_c = time.perf_counter() - t0
@@ -483,13 +413,13 @@ def main() -> None:
                     ok_c = result_c.status == PlanGenerationResultStatus.SOLVED_SATISFICING
                     if ok_c:
                         plan = result_c.plan
-                        plan_source = "complete"
+                        plan_source = "border"
                     else:
                         t_e2 = time.perf_counter()
-                        plan_learned_vs = learner_up_problem(learner, "version_space")
+                        plan_learned_vs = learner_up_problem(learner, "complete")
                         t_e3 = time.perf_counter()
                         _sum_export_build += t_e3 - t_e2
-                        plan_problem_vs = inject_actions(plan_base, plan_learned_vs)
+                        plan_problem_vs = inject_actions(gt_problem, plan_learned_vs)
                         t1 = time.perf_counter()
                         result_vs = planner.solve(plan_problem_vs)
                         dt_vs = time.perf_counter() - t1
@@ -501,35 +431,23 @@ def main() -> None:
                         )
                         if ok_vs:
                             plan = result_vs.plan
-                            plan_source = "version_space"
+                            plan_source = "complete"
 
                 pos_demos, neg_demo, final_up_state = [], None, None
                 verified = False
-                sim_carry_state = None
                 if plan is not None:
                     stats["plan_found"] += 1
                     if plan_source == "sound":
                         stats["plan_found_sound"] += 1
+                    elif plan_source == "border":
+                        stats["plan_found_border"] += 1
                     elif plan_source == "complete":
                         stats["plan_found_complete"] += 1
-                    elif plan_source == "version_space":
-                        stats["plan_found_version_space"] += 1
-                    if carry_up_state is not None:
-                        pos_demos, neg_demo, final_up_state, sim_carry_state = (
-                            simulate_prefix_from_state(
-                                gt_problem,
-                                carry_up_state,
-                                plan,
-                                literal_descriptors,
-                                verbose=False,
-                            )
+                    pos_demos, neg_demo, final_up_state, _ = (
+                        simulate_prefix_on_ground_truth(
+                            gt_problem, plan, literal_descriptors, verbose=False
                         )
-                    else:
-                        pos_demos, neg_demo, final_up_state, sim_carry_state = (
-                            simulate_prefix_on_ground_truth(
-                                gt_problem, plan, literal_descriptors, verbose=False
-                            )
-                        )
+                    )
                     verified = neg_demo is None and len(pos_demos) == len(plan.actions)
                     if verified:
                         stats["plan_verified"] += 1
@@ -542,16 +460,9 @@ def main() -> None:
                     stats["no_plan"] += 1
                     if not QUIET_ONLINE_LOOP:
                         emit(
-                            f"[no plan] sound / complete / version_space all failed "
+                            f"[no plan] sound / border / complete all failed "
                             f"(outer i={i})."
                         )
-
-                # Restart policy: carry forward only after a clean plan (no negative demo).
-                # A negative demo resets to the PDDL initial state next iteration.
-                if plan is not None and neg_demo is None:
-                    carry_up_state = sim_carry_state
-                else:
-                    carry_up_state = None
 
                 batch = pos_demos + ([neg_demo] if neg_demo is not None else [])
                 lifted_batch = lift_demonstrations(batch, list(gt_problem.actions))
@@ -648,7 +559,7 @@ def main() -> None:
         _stop_msgs = {
             "goal": "GT state after full simulated plan satisfies PDDL goals",
             "no_plan_complete": (
-                "planner returned no plan for sound, complete, and version_space"
+                "planner returned no plan for sound, border, and complete"
             ),
             "max_iterations": (
                 f"reached MAX_OUTER_ITERATIONS ({MAX_OUTER_ITERATIONS}) without goal"
