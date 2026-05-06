@@ -18,5 +18,5 @@ dependencies:
     - jupyter
     - ipykernel
     - nbconvert
-    # ASCAL — installed from the pinned git submodule at ./ascal.
-    - -e ./ascal
+    # ASCAL 
+    - ascal
